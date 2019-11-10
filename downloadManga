@@ -1,0 +1,24 @@
+#!/bin/bash
+
+if [ $# -eq 0 ]
+then
+    echo "No madokami link supplied"
+    exit 2
+fi
+
+link=$1
+user=$( echo $MADOKAMI_USER )
+pass=$( echo $MADOKAMI_PASS )
+
+echo -n "Ingrese el titulo del manga: "
+read title
+
+if [ ! -d "$title" ]
+then
+    mkdir "$title"
+fi
+
+cd  "$title"
+
+$( wget --user $user --password $pass -qO- $link | grep -E '.(zip|rar|cbz|cbr)' | grep -v reader | grep -Eo '"/(.*).(cbz|cbr|rar|zip)"' | tr -d \" | awk '{print "https://manga.madokami.al"$1}' | xargs -I {} wget --user $user --password $pass -nc {})
+

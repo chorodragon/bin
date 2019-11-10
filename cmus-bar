@@ -1,0 +1,10 @@
+#!/bin/bash
+
+#Return the name and artist playing on cmus if its playing
+
+load=$(cmus-remote -Q | grep status | cut -d" " -f2)
+
+if [ "$load" == "playing" ] 
+then
+	echo -e "$(cmus-remote -Q | grep artist | grep -v album | grep -v sort | cut -d" " -f3,4,5)-$(cmus-remote -Q | grep title | cut -d" " -f3,4,5,6,7)"
+fi

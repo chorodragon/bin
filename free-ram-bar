@@ -1,0 +1,4 @@
+#!/bin/bash
+
+memory="$(free -h | awk '/Mem/ {print $3}' | grep -v free)"
+	echo $memory

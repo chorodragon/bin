@@ -1,0 +1,16 @@
+#!/bin/bash
+
+#Return the load of the cpu
+
+load=$(uptime | awk '{print $4;}')
+
+if [ "$load" == "min," ]
+then
+	echo -e $(uptime | awk '{print $11;}')
+else
+	echo -e $(uptime | awk '{print $10;}')
+fi
+
+exit 1
+
+

@@ -1,0 +1,14 @@
+#!/bin/bash
+intern=eDP-1
+vga=DP-1
+hdmi=HDMI-1
+
+if xrandr | grep "$hdmi connected"; 
+then
+    xrandr --output "$intern" --off --output "$vga" --off --output "$hdmi" --auto
+elif xrandr | grep "$vga disconnected";
+then
+    xrandr --output "$intern" --auto --output "$vga" --off --output "$hdmi" --off
+else
+    xrandr --output "$intern" --off --output "$vga" --auto --output "$hdmi" --off
+fi

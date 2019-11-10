@@ -1,0 +1,13 @@
+#!/bin/bash
+
+state=$(amixer get Master | awk '/Front Left:/ {print $6}')
+
+if [ "$state" == "[off]" ]
+then
+	echo Mute
+fi
+
+if [ "$state" == "[on]" ]
+then
+	echo $(amixer get Master | awk '/Front Left:/ {print $5}' | cut -d\[ -f2 | cut -d\] -f1)
+fi

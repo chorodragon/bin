@@ -1,0 +1,4 @@
+#!/bin/bash
+# 🔊
+
+amixer -c 1 sget Master | grep % | awk 'match($4, /[0-9]+/){ mVolume=substr($4, RSTART, RLENGTH)ola} {print "🔊 " mVolume "%"}'

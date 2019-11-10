@@ -1,0 +1,43 @@
+#!/bin/bash
+
+if [ $# -eq 0 ] 
+then
+    echo "No thread link supplied"
+    exit 2
+fi
+link=$1
+message="Downloading"
+count=1
+
+board=$( echo $link | grep -Eo '/./' )
+
+echo "Download Starting"
+
+$( sleep 1 & wget -qO- $link | grep -Eo '([0-9]+).(jpg|png)' | sort | uniq | awk -v board="$board" '{tmp="https://i.4cdn.org"board$1;print tmp}' | xargs -I {} wget -q {}) 
+
+while [ 1 ];
+do
+    echo -en $message
+    case $count in
+        1)
+            message="Downloading."
+            ;;
+        2)
+            message="Downloading.."
+            ;;
+        3)
+            message="Downloading..."
+            ;;
+        4)
+            message="Downloading"
+            ;;
+    esac
+    count=$((count+1))
+    sleep 1
+    echo -en "\e[1A"
+    echo -e "\e[0K\r"
+    fg 2> /dev/null
+    [ $? == 1 ] && break
+done
+echo ""
+echo "Done!!!"

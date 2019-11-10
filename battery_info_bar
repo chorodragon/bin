@@ -1,0 +1,16 @@
+#!/bin/bash
+
+state=$(acpi | awk '/Battery/ {print $3}')
+
+if [ "$state" == "Charging," ]
+then
+	echo -n "Ch "
+fi
+
+if [ "$state" == "Discharging," ]
+then
+	echo -n "Dis "
+fi
+
+echo -n $( acpi | awk '/Battery/ {print $4}' | cut -d, -f1)" "
+echo $( acpi | awk '/Battery/ {print $5}' | cut -d, -f1 | cut -d: -f1,2)
